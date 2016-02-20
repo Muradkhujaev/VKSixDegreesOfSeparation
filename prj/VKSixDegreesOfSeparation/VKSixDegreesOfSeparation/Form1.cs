@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace VKSixDegreesOfSeparation
 {
@@ -14,6 +15,12 @@ namespace VKSixDegreesOfSeparation
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private async void findConnectionButton_Click(object sender, EventArgs e)
+        {
+            FriendsFetcher fetch = new FriendsFetcher(new VKUser(1));
+            List<VKUser> friends = await fetch.fetchFriends();
         }
     }
 }
