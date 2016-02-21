@@ -7,7 +7,9 @@ using Newtonsoft.Json;
 
 namespace VKSixDegreesOfSeparation
 {
-
+    /// <summary>
+    /// Friends fetcher for vk user
+    /// </summary>
     class FriendsFetcher : VKFetcher
     {
         public FriendsFetcher(VKUser user)
@@ -18,18 +20,27 @@ namespace VKSixDegreesOfSeparation
 
         public async Task<List<VKUser>> fetchFriends()
         {
-            string response = await Task<string>.Factory.StartNew(() => { return httpRequest(fetchFriendsUrl + _user.ID); });
+            string response = await Task<string>.Factory.StartNew(() =>
+                { return httpRequest(fetchFriendsUrl + _user.ID); });
+
             parseResponse(response);
             return _friends;
         }
         
         private void parseResponse(string response)
         {
-            dynamic jsonObj = JsonConvert.DeserializeObject(response);
-
-            for (int i = 0; i < jsonObj.response.Count; i++)
+            try
             {
-                _friends.Add(new VKUser((int)jsonObj.response[i], _user));
+                dynamic jsonObj = JsonConvert.DeserializeObject(response);
+
+                for (int i = 0; i < jsonObj.response.Count; i++)
+                {
+                    _friends.Add(new VKUser((int)jsonObj.response[i], _user));
+                } 
+            }
+            catch
+            {
+                _status = FetchResult.BadData;
             }
         }
 

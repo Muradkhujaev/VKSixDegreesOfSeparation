@@ -11,9 +11,13 @@ namespace VKSixDegreesOfSeparation
     {
         Success,
         ConnectionError,
-        BadData
+        BadData,
+        NoData
     }
 
+    /// <summary>
+    /// Basic fetcher for vk data
+    /// </summary>
     class VKFetcher
     {
         public FetchResult Status
@@ -43,12 +47,6 @@ namespace VKSixDegreesOfSeparation
 
                 reader.Close();
                 response.Close();
-
-                if (responseFromServer.IndexOf("error") >= 0)
-                {
-                    _status = FetchResult.BadData;
-                    return responseString;
-                }
 
                 responseString = responseFromServer;
             }

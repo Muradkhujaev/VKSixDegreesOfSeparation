@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace VKSixDegreesOfSeparation
 {
+    /// <summary>
+    /// Model
+    /// </summary>
     class VKUser
     {
         public int ID
@@ -24,6 +27,14 @@ namespace VKSixDegreesOfSeparation
             }
         }
 
+        public int Level
+        {
+            get
+            {
+                return _level;
+            }
+        }
+
         public List<VKUser> Childs
         {
             get
@@ -35,7 +46,7 @@ namespace VKSixDegreesOfSeparation
         public VKUser(int id)
         {
             _id = id;
-            _father = null;
+            _level = 0;
             _childs = new List<VKUser>();
         }
 
@@ -43,6 +54,7 @@ namespace VKSixDegreesOfSeparation
         {
             _id = id;
             _father = father;
+            _level = _father.Level + 1;
             _childs = new List<VKUser>();
         }
 
@@ -53,8 +65,9 @@ namespace VKSixDegreesOfSeparation
         }
 
 
-        protected int _id;
-        protected VKUser _father;
-        protected List<VKUser> _childs;
+        protected int _id;                              //id of the user
+        protected VKUser _father;                       //father of the user. Shortest friend for start user.
+        protected List<VKUser> _childs;                 //friends of the user
+        protected int _level;                           //level in connection
     }
 }
