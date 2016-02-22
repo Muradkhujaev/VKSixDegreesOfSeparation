@@ -9,7 +9,7 @@ namespace VKSixDegreesOfSeparation
     /// <summary>
     /// Model
     /// </summary>
-    class VKUser
+    public class VKUser
     {
         public int ID
         {

@@ -35,18 +35,27 @@ namespace VKSixDegreesOfSeparation
             }
         }
 
-        public async Task<List<VKUser>> getConnection()
+        public async Task<List<VKUserViewData>> getConnection()
         {
-            if (_startUser.ID == _targetUser.ID)
+            await prepareQueues();
+
+            //path to self
+            if ((_startUser.ID == _targetUser.ID) 
+                || (_targetQueue.containsUser(_startUser) 
+                    && _startQueue.containsUser(_startUser))) //already friends
             {
                 _path.Add(_startUser);
                 _path.Add(_targetUser);
-                return _path;
+                return await getUserDataForPath();
             }
-
-            await prepareQueues();
-
             
+            await findConnection();
+            
+            return await getUserDataForPath();
+        }
+
+        private async Task findConnection()
+        {
             while (_startQueue.hasHextUser())
             {
                 //teory failed
@@ -76,9 +85,23 @@ namespace VKSixDegreesOfSeparation
                     break;
                 }
             }
-
-            return _path;
         }
+
+        private async Task<List<VKUserViewData>> getUserDataForPath()
+        {
+            List<VKUserViewData> list = new List<VKUserViewData>();
+            foreach (VKUser user in _path)
+            {
+                UserInfoFetcher fetcher = new UserInfoFetcher(user.ID.ToString());
+                VKUserViewData userInfo = await fetcher.fetchInfo();
+                if (fetcher.Status != FetchResult.Success) {
+                    break;
+                }
+                list.Add(userInfo);
+            }
+
+            return list;
+        } 
 
         /// <summary>
         /// Prepares queues to start search
@@ -133,6 +156,8 @@ namespace VKSixDegreesOfSeparation
         {
             if (user.Childs.Count == 0)
             {
+                q.addUser(user);
+
                 FriendsFetcher fetcher = new FriendsFetcher(user);
                 List<VKUser> friends = await fetcher.fetchFriends();
                 _status = fetcher.Status;
@@ -144,6 +169,8 @@ namespace VKSixDegreesOfSeparation
                         user.addChild(usr);
                     }
                 }
+
+                
             }
         }
 
@@ -190,34 +217,6 @@ namespace VKSixDegreesOfSeparation
             }
             _path.AddRange(tempList);
 
-
-            /*//restore path
-            List<VKUser> tempList = new List<VKUser>();
-            while (currUser != _startUser && currUser != _targetUser)
-            {
-                tempList.Add(currUser);
-                currUser = currUser.Father;
-            }
-
-            //if we child of the start user
-            if (currUser == _startUser)
-            {
-                tempList.Reverse();
-                _path.Add(_startUser);
-                _path.AddRange(tempList);
-                makeConnection(_targetQueue.getUser(user.ID));
-            }
-
-            //if we child of the target user
-            if (currUser == _targetUser)
-            {
-                if (_path.Count == 0) {
-                    makeConnection(_startQueue.getUser(user.ID));
-                }
-                tempList.RemoveAt(0);
-                _path.AddRange(tempList);
-                _path.Add(_targetUser);
-            }*/
         }
 
         private VKUser _startUser;                          //start user
