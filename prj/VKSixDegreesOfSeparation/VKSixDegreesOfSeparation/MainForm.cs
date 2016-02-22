@@ -38,7 +38,9 @@ namespace VKSixDegreesOfSeparation
             }
 
             VKConnectionFinder connFind = new VKConnectionFinder(_startUser, _targetUser);
+            statusLabel.Text = "Search the path";
             List<VKUserViewData> path = await connFind.getConnection();
+            statusLabel.Text = "Path is found";
             await validatePath(connFind, path);
         }
 
@@ -54,9 +56,13 @@ namespace VKSixDegreesOfSeparation
                 MessageBox.Show("VK servers returned error. Try again");
             }
 
+            statusLabel.Text = "Downloading user info";
+
             ResultForm newForm = new ResultForm(path);
             await newForm.prepareView();
             newForm.Show();
+
+            statusLabel.Text = "Ready";
 
             //await newForm.prepareView();
         }
@@ -176,5 +182,15 @@ namespace VKSixDegreesOfSeparation
 
         private VKUserViewData _startUser;
         private VKUserViewData _targetUser;
+
+        private void startTextBox_Click(object sender, EventArgs e)
+        {
+            startTextBox.Text = "";
+        }
+
+        private void targetTextBox_Click(object sender, EventArgs e)
+        {
+            targetTextBox.Text = "";
+        }
     }
 }

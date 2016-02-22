@@ -20,11 +20,17 @@ namespace VKSixDegreesOfSeparation
 
             _viewPath = path;
             _images = new List<Bitmap>();
-            titleLabel.Text = "Yout path to " + _viewPath[_viewPath.Count - 1].Name;
         }
 
         public async Task prepareView()
         {
+            if (_viewPath.Count == 0)
+            {
+                titleLabel.Text = "There is no path";
+                return;
+            }
+
+            titleLabel.Text = "Path from " + _viewPath[0].Name + " to " + _viewPath[_viewPath.Count - 1].Name;
             if (_images.Count != _viewPath.Count)
             {
                 await prepareData();
@@ -41,6 +47,11 @@ namespace VKSixDegreesOfSeparation
         //-------------------------------View
         private void drawConnection(Graphics gr)
         {
+            if (_viewPath.Count == 0)
+            {
+                return;
+            }
+
             // Create pen.
             Pen pen = new Pen(Color.DarkGray, 5);
 
@@ -50,6 +61,11 @@ namespace VKSixDegreesOfSeparation
 
             // Draw line to screen.
             gr.DrawLine(pen, point1, point2);
+        }
+
+        private void ResultForm_Paint(object sender, PaintEventArgs e)
+        {
+            drawConnection(e.Graphics);
         }
 
         private void placeUserPicture(int num)
@@ -64,8 +80,9 @@ namespace VKSixDegreesOfSeparation
             {
                 Name = "pictureBox" + num,
                 Size = new Size(100, 125),
-                Location = new Point(20 + num * 150, 50),
+                Location = new Point(25 + num * 150, 70),
                 SizeMode = PictureBoxSizeMode.Zoom,
+                Margin = new Padding(25,25,25,50),
                 Image = _images[num]
             };
 
@@ -80,7 +97,7 @@ namespace VKSixDegreesOfSeparation
                 Name = "label" + num,
                 Text = _viewPath[num].Name,
                 AutoSize = true,
-                Location = new Point(20 + num * 150, 180)
+                Location = new Point(45 + num * 150, 200)
             };
             this.Controls.Add(label);
         }
@@ -88,7 +105,7 @@ namespace VKSixDegreesOfSeparation
         private void pictureBoxClicked(object sender, EventArgs e)
         {
             string name = ((PictureBox)sender).Name;
-            int index = (int)name[name.Length - 1];
+            int index = (int)(name[name.Length - 1] -  '0');
             navigateToUser(_viewPath[index]);
         }
 
@@ -123,10 +140,5 @@ namespace VKSixDegreesOfSeparation
 
         private List<VKUserViewData> _viewPath;
         private List<Bitmap> _images;
-
-        private void ResultForm_Paint(object sender, PaintEventArgs e)
-        {
-            drawConnection(e.Graphics);
-        }
     }
 }
