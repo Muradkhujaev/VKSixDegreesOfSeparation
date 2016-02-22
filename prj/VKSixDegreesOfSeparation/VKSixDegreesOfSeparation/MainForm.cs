@@ -36,27 +36,48 @@ namespace VKSixDegreesOfSeparation
                 return;
             }
 
+            await fetchUserInfo();
+
             VKConnectionFinder connFinf = new VKConnectionFinder(new VKUser(Dilmurad), new VKUser(103982744));
             List<VKUser> path = await connFinf.getConnection();
         }
 
+        private async Task fetchUserInfo()
+        {
+            UserInfoFetcher startFetcher = new UserInfoFetcher(_startUser.Nick);
+            _startUser = await startFetcher.fetchInfo();
+            if (startFetcher.Status != FetchResult.Success)
+            {
+                updateView(startFetcher.Status, "something");
+                return;
+            }
+
+            UserInfoFetcher targetFetcher = new UserInfoFetcher(_targetUser.Nick);
+            _targetUser = await targetFetcher.fetchInfo();
+            if (startFetcher.Status != FetchResult.Success)
+            {
+                updateView(startFetcher.Status, "something");
+                return;
+            }
+        }
+
         private bool validateTextBoxes()
         {
-            bool b1 = validateTextBox(startTextBox, _startUser);
-            bool b2 = validateTextBox(targetTextBox, _targetUser);
+            bool b1 = validateTextBox(startTextBox, out _startUser);
+            bool b2 = validateTextBox(targetTextBox,out  _targetUser);
             return b1 && b2;
         }
 
-
-        private bool validateUser(string userNick, VKUserViewData user)
+        private bool validateUser(string userNick, out VKUserViewData user)
         {
             user = new VKUserViewData(userNick);
             if (!user.validateNick())
                 return false;
+
             return true;
         }
 
-        private bool validateTextBox(TextBox tx, VKUserViewData user)
+        private bool validateTextBox(TextBox tx, out VKUserViewData user)
         {
             int start = -1;
             string url = tx.Text;
@@ -69,6 +90,7 @@ namespace VKSixDegreesOfSeparation
                     tx.BackColor = Color.Red;
                     tx.ForeColor = Color.White;
                     statusLabel.Text = "Some errors";
+                    user = null;
                     return false;
                 }
                 start = s + "https://vk.com/".Length;
@@ -84,7 +106,7 @@ namespace VKSixDegreesOfSeparation
                 userNick += tx.Text[i];
             }
 
-            if (!validateUser(userNick, user))
+            if (!validateUser(userNick, out user))
             {
                 tx.BackColor = Color.Red;
                 tx.ForeColor = Color.White;
@@ -95,6 +117,11 @@ namespace VKSixDegreesOfSeparation
             tx.BackColor = Color.White;
             tx.ForeColor = Color.Black;
             return true;
+        }
+
+        private void updateView(FetchResult status, string message = "")
+        {
+
         }
 
         private VKUserViewData _startUser;
