@@ -6,13 +6,29 @@ using System.Threading.Tasks;
 
 namespace VKSixDegreesOfSeparation
 {
-    class VKUserViewData : VKUser
+    public class VKUserViewData : VKUser
     {
         public string Nick
         {
             get
             {
                 return _nick;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+        }
+
+        public string PhotoUrl
+        {
+            get
+            {
+                return _photoUrl;
             }
         }
 

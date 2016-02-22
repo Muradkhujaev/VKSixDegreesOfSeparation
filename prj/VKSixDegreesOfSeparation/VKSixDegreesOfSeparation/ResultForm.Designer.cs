@@ -56,11 +56,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1204, 515);
             this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.resultLabel);
             this.Name = "ResultForm";
             this.Text = "ResultForm";
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.ResultForm_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
 

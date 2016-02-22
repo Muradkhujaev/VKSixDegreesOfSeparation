@@ -55,6 +55,7 @@
             this.targetTextBox.Name = "targetTextBox";
             this.targetTextBox.Size = new System.Drawing.Size(300, 31);
             this.targetTextBox.TabIndex = 1;
+            this.targetTextBox.Text = "https://vk.com/id1";
             // 
             // startTextBox
             // 
@@ -62,6 +63,7 @@
             this.startTextBox.Name = "startTextBox";
             this.startTextBox.Size = new System.Drawing.Size(300, 31);
             this.startTextBox.TabIndex = 2;
+            this.startTextBox.Text = "https://vk.com/deell1";
             // 
             // label1
             // 

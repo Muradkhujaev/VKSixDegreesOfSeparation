@@ -11,8 +11,7 @@ namespace VKSixDegreesOfSeparation
     {
         Success,
         ConnectionError,
-        BadData,
-        NoData
+        BadData
     }
 
     /// <summary>

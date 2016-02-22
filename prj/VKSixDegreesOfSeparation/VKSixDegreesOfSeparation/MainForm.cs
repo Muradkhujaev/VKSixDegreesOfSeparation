@@ -37,9 +37,32 @@ namespace VKSixDegreesOfSeparation
                 return;
             }
 
-            VKConnectionFinder connFinf = new VKConnectionFinder(new VKUser(_startUser.ID), new VKUser(_targetUser.ID));
-            List<VKUser> path = await connFinf.getConnection();
+            VKConnectionFinder connFind = new VKConnectionFinder(_startUser, _targetUser);
+            List<VKUserViewData> path = await connFind.getConnection();
+            await validatePath(connFind, path);
         }
+
+        private async Task validatePath(VKConnectionFinder finder, List<VKUserViewData> path)
+        {
+            if (finder.Status == FetchResult.ConnectionError)
+            {
+                MessageBox.Show("There is no connection to vk servers");
+            }
+
+            if (finder.Status == FetchResult.BadData)
+            {
+                MessageBox.Show("VK servers returned error. Try again");
+            }
+
+            ResultForm newForm = new ResultForm(path);
+            await newForm.prepareView();
+            newForm.Show();
+
+            //await newForm.prepareView();
+        }
+
+
+        //----------------------------------------User Validation
 
         private async Task<bool> fetchUserInfo()
         {
@@ -122,6 +145,9 @@ namespace VKSixDegreesOfSeparation
 
             return true;
         }
+
+
+        //----------------------------------------View
 
         private void textBoxBadData(TextBox tx)
         {
