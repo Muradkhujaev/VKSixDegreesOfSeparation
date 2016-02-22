@@ -8,10 +8,27 @@ namespace VKSixDegreesOfSeparation
 {
     class VKUserViewData : VKUser
     {
+        public string Nick
+        {
+            get
+            {
+                return _nick;
+            }
+        }
+
         public VKUserViewData(string nick) 
             : base(0)
         {
             _nick = nick;
+            _photoUrl = "";
+        }
+
+        public VKUserViewData(int id, string name, string nick, string photoUrl)
+            : base(id)
+        {
+            _nick = nick;
+            _photoUrl = photoUrl;
+            _name = name;
         }
 
         public VKUserViewData()
@@ -33,5 +50,7 @@ namespace VKSixDegreesOfSeparation
         }
 
         protected string _nick;
+        protected string _name;
+        protected string _photoUrl;
     }
 }
