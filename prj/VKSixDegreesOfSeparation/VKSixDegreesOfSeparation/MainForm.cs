@@ -24,11 +24,6 @@ namespace VKSixDegreesOfSeparation
             AllocConsole();
         }
 
-        int Medvedev = 53083705;
-        int Durov = 1;
-        int Dilmurad = 198489790;
-
-
         private async void findConnectionButton_Click(object sender, EventArgs e)
         {
             if (!validateTextBoxes())
@@ -36,45 +31,50 @@ namespace VKSixDegreesOfSeparation
                 return;
             }
 
-            await fetchUserInfo();
+            bool res = await fetchUserInfo();
+            if (!res)
+            {
+                return;
+            }
 
-            VKConnectionFinder connFinf = new VKConnectionFinder(new VKUser(Dilmurad), new VKUser(103982744));
+            VKConnectionFinder connFinf = new VKConnectionFinder(new VKUser(_startUser.ID), new VKUser(_targetUser.ID));
             List<VKUser> path = await connFinf.getConnection();
         }
 
-        private async Task fetchUserInfo()
+        private async Task<bool> fetchUserInfo()
         {
             UserInfoFetcher startFetcher = new UserInfoFetcher(_startUser.Nick);
             _startUser = await startFetcher.fetchInfo();
             if (startFetcher.Status != FetchResult.Success)
             {
-                updateView(startFetcher.Status, "something");
-                return;
+                updateError(startFetcher.Status);
+                textBoxBadData(startTextBox);
+                return false;
             }
 
             UserInfoFetcher targetFetcher = new UserInfoFetcher(_targetUser.Nick);
             _targetUser = await targetFetcher.fetchInfo();
-            if (startFetcher.Status != FetchResult.Success)
+            if (targetFetcher.Status != FetchResult.Success)
             {
-                updateView(startFetcher.Status, "something");
-                return;
+                updateError(targetFetcher.Status);
+                textBoxBadData(targetTextBox);
+                return false;
             }
+
+            return true;
         }
 
         private bool validateTextBoxes()
         {
             bool b1 = validateTextBox(startTextBox, out _startUser);
-            bool b2 = validateTextBox(targetTextBox,out  _targetUser);
+            bool b2 = validateTextBox(targetTextBox, out  _targetUser);
+            
+            if (!(b1 && b2))
+            {
+                statusLabel.Text = "Bad data";
+            }
+
             return b1 && b2;
-        }
-
-        private bool validateUser(string userNick, out VKUserViewData user)
-        {
-            user = new VKUserViewData(userNick);
-            if (!user.validateNick())
-                return false;
-
-            return true;
         }
 
         private bool validateTextBox(TextBox tx, out VKUserViewData user)
@@ -87,9 +87,7 @@ namespace VKSixDegreesOfSeparation
                 s = url.IndexOf("https://vk.com/");
                 if (s == -1)
                 {
-                    tx.BackColor = Color.Red;
-                    tx.ForeColor = Color.White;
-                    statusLabel.Text = "Some errors";
+                    textBoxBadData(tx);
                     user = null;
                     return false;
                 }
@@ -108,20 +106,46 @@ namespace VKSixDegreesOfSeparation
 
             if (!validateUser(userNick, out user))
             {
-                tx.BackColor = Color.Red;
-                tx.ForeColor = Color.White;
-                statusLabel.Text = "User doesn't exist";
+                textBoxBadData(tx);
                 return false;
             }
 
-            tx.BackColor = Color.White;
-            tx.ForeColor = Color.Black;
+            textBoxGoodData(tx);
             return true;
         }
 
-        private void updateView(FetchResult status, string message = "")
+        private bool validateUser(string userNick, out VKUserViewData user)
         {
+            user = new VKUserViewData(userNick);
+            if (!user.validateNick())
+                return false;
 
+            return true;
+        }
+
+        private void textBoxBadData(TextBox tx)
+        {
+            tx.BackColor = Color.Red;
+            tx.ForeColor = Color.White;
+        }
+
+        private void textBoxGoodData(TextBox tx, bool message = false)
+        {
+            tx.BackColor = Color.White;
+            tx.ForeColor = Color.Black;
+        }
+
+        private void updateError(FetchResult status)
+        {
+            switch (status)
+            {
+                case FetchResult.ConnectionError:
+                    statusLabel.Text = "There is no connection to the VK servers";
+                    break;
+                case FetchResult.BadData:
+                    statusLabel.Text = "Bad data";
+                    break;
+            }
         }
 
         private VKUserViewData _startUser;

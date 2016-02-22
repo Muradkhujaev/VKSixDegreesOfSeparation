@@ -23,6 +23,13 @@ namespace VKSixDegreesOfSeparation
             _photoUrl = "";
         }
 
+        public VKUserViewData(VKUser user)
+            : base(user.ID, user.Father)
+        {
+            _nick = "";
+            _photoUrl = "";
+        }
+
         public VKUserViewData(int id, string name, string nick, string photoUrl)
             : base(id)
         {
@@ -44,8 +51,6 @@ namespace VKSixDegreesOfSeparation
                 return false;
             }
 
-            //get user id from net
-            //или сделать загрузку инфы сверху этого класса. 
             return true;
         }
 

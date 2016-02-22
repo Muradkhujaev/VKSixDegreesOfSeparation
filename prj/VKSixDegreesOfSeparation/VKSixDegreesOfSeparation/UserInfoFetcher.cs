@@ -9,6 +9,7 @@ namespace VKSixDegreesOfSeparation
 {
     class UserInfoFetcher : VKFetcher
     {
+
         public UserInfoFetcher(string nick)
         {
             _nick = nick;
