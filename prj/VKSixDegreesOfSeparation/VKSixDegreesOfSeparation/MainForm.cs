@@ -13,15 +13,14 @@ namespace VKSixDegreesOfSeparation
 {
     public partial class MainForm : Form
     {
-
-        [DllImport("kernel32.dll", SetLastError = true)]
+        /*[DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        static extern bool AllocConsole();*/
 
         public MainForm()
         {
             InitializeComponent();
-            AllocConsole();
+           // AllocConsole();
         }
 
         private async void findConnectionButton_Click(object sender, EventArgs e)

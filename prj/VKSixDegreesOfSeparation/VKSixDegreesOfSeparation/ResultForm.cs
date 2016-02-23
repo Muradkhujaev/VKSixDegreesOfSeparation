@@ -52,14 +52,11 @@ namespace VKSixDegreesOfSeparation
                 return;
             }
 
-            // Create pen.
             Pen pen = new Pen(Color.DarkGray, 5);
 
-            // Create points that define line.
             Point point1 = new Point(50, 125);
             Point point2 = new Point(_images.Count*150-50, 125);
 
-            // Draw line to screen.
             gr.DrawLine(pen, point1, point2);
         }
 

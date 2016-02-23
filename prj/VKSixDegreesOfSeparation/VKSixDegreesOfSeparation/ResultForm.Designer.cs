@@ -64,7 +64,7 @@
             this.Controls.Add(this.resultLabel);
             this.Name = "ResultForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ResultForm";
+            this.Text = "Path";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ResultForm_Paint);
             this.ResumeLayout(false);
             this.PerformLayout();
