@@ -35,7 +35,7 @@ namespace VKSixDegreesOfSeparation
                 dynamic jsonObj = JsonConvert.DeserializeObject(response);
 
                 int id = jsonObj.response[0].uid;
-                string name = jsonObj.response[0].first_name + " " + jsonObj.response[0].last_name;
+                string name = jsonObj.response[0].first_name /*+ " " + jsonObj.response[0].last_name*/;
                 string photoUrl = jsonObj.response[0].photo_100;
                 VKUserViewData user = new VKUserViewData(id, name, _nick, photoUrl);
                 return user;

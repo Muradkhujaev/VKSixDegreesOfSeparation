@@ -51,11 +51,13 @@
             // 
             // targetTextBox
             // 
+            this.targetTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.targetTextBox.Location = new System.Drawing.Point(110, 145);
             this.targetTextBox.Name = "targetTextBox";
             this.targetTextBox.Size = new System.Drawing.Size(300, 31);
             this.targetTextBox.TabIndex = 1;
             this.targetTextBox.Text = "https://vk.com/id1";
+            this.targetTextBox.Click += new System.EventHandler(this.targetTextBox_Click);
             // 
             // startTextBox
             // 
@@ -64,6 +66,7 @@
             this.startTextBox.Size = new System.Drawing.Size(300, 31);
             this.startTextBox.TabIndex = 2;
             this.startTextBox.Text = "https://vk.com/deell1";
+            this.startTextBox.Click += new System.EventHandler(this.startTextBox_Click);
             // 
             // label1
             // 
@@ -125,7 +128,8 @@
             this.Controls.Add(this.targetTextBox);
             this.Controls.Add(this.findConnectionButton);
             this.Name = "MainForm";
-            this.Text = "VK Six Degrees Of Separation";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "VK Path";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
