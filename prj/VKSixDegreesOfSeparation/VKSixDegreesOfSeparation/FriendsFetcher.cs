@@ -10,14 +10,14 @@ namespace VKSixDegreesOfSeparation
     /// <summary>
     /// Friends fetcher for vk user
     /// </summary>
-    class FriendsFetcher : VKFetcher
+    public class FriendsFetcher : VKFetcher
     {
         public FriendsFetcher(VKUser user)
         {
             _user = user;
             _friends = new List<VKUser>();
         }
-
+        //test
         public async Task<List<VKUser>> fetchFriends()
         {
             string response = await Task<string>.Factory.StartNew(() =>

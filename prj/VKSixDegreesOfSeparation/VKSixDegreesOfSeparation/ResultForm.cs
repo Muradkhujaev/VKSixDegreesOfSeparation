@@ -113,6 +113,7 @@ namespace VKSixDegreesOfSeparation
 
 
         //-------------------------------Data
+        //test
         public async Task prepareData()
         {
             foreach (VKUserViewData user in _viewPath)
@@ -121,7 +122,7 @@ namespace VKSixDegreesOfSeparation
                 _images.Add(img);
             }
         }
-
+        //test
         private async Task<Bitmap> getImage(string url)
         {
             return await Task<Bitmap>.Factory.StartNew(() =>

@@ -59,7 +59,7 @@ namespace VKSixDegreesOfSeparation
         {
             _nick = "";
         }
-
+        //test
         public bool validateNick()
         {
             if (_nick == "")

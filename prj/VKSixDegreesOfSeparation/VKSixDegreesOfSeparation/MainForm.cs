@@ -68,8 +68,8 @@ namespace VKSixDegreesOfSeparation
 
 
         //----------------------------------------User Validation
-
-        private async Task<bool> fetchUserInfo()
+        //test
+        protected async Task<bool> fetchUserInfo()
         {
             UserInfoFetcher startFetcher = new UserInfoFetcher(_startUser.Nick);
             _startUser = await startFetcher.fetchInfo();
@@ -91,7 +91,7 @@ namespace VKSixDegreesOfSeparation
 
             return true;
         }
-
+        //test
         private bool validateTextBoxes()
         {
             bool b1 = validateTextBox(startTextBox, out _startUser);
@@ -104,8 +104,8 @@ namespace VKSixDegreesOfSeparation
 
             return b1 && b2;
         }
-
-        private bool validateTextBox(TextBox tx, out VKUserViewData user)
+        //test
+        protected bool validateTextBox(TextBox tx, out VKUserViewData user)
         {
             int start = -1;
             string url = tx.Text;
@@ -141,8 +141,8 @@ namespace VKSixDegreesOfSeparation
             textBoxGoodData(tx);
             return true;
         }
-
-        private bool validateUser(string userNick, out VKUserViewData user)
+        //test
+        protected bool validateUser(string userNick, out VKUserViewData user)
         {
             user = new VKUserViewData(userNick);
             if (!user.validateNick())
@@ -179,8 +179,8 @@ namespace VKSixDegreesOfSeparation
             }
         }
 
-        private VKUserViewData _startUser;
-        private VKUserViewData _targetUser;
+        protected VKUserViewData _startUser;
+        protected VKUserViewData _targetUser;
 
         private void startTextBox_Click(object sender, EventArgs e)
         {

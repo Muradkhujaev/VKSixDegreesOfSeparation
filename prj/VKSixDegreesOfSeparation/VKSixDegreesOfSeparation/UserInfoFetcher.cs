@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace VKSixDegreesOfSeparation
 {
-    class UserInfoFetcher : VKFetcher
+    public class UserInfoFetcher : VKFetcher
     {
 
         public UserInfoFetcher(string nick)
@@ -15,6 +15,7 @@ namespace VKSixDegreesOfSeparation
             _nick = nick;
         }
 
+        //test
         public async Task<VKUserViewData> fetchInfo()
         {
             string response = await Task<string>.Factory.StartNew(() =>

@@ -9,7 +9,7 @@ namespace VKSixDegreesOfSeparation
     /// <summary>
     /// Find connection between two vk user.
     /// </summary>
-    class VKConnectionFinder
+    public class VKConnectionFinder
     {
         public VKConnectionFinder(VKUser start, VKUser target)
         {
@@ -34,7 +34,7 @@ namespace VKSixDegreesOfSeparation
                 return _status;
             }
         }
-
+        //test
         public async Task<List<VKUserViewData>> getConnection()
         {
             await prepareQueues();
@@ -53,7 +53,6 @@ namespace VKSixDegreesOfSeparation
             
             return await getUserDataForPath();
         }
-
         private async Task findConnection()
         {
             while (_startQueue.hasHextUser())
@@ -86,7 +85,6 @@ namespace VKSixDegreesOfSeparation
                 }
             }
         }
-
         private async Task<List<VKUserViewData>> getUserDataForPath()
         {
             List<VKUserViewData> list = new List<VKUserViewData>();
@@ -145,7 +143,6 @@ namespace VKSixDegreesOfSeparation
 
             return null;
         }
-
         /// <summary>
         /// Get friends and adds to queue.
         /// </summary>
@@ -186,7 +183,6 @@ namespace VKSixDegreesOfSeparation
                 _targetQueue = temp;
             }
         }
-
         /// <summary>
         /// Restores path from user to father and adds to result path.
         /// </summary>
