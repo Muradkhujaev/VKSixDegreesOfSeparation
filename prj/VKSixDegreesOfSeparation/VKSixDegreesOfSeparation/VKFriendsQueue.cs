@@ -9,7 +9,7 @@ namespace VKSixDegreesOfSeparation
     /// <summary>
     /// Stores data for ConnectionFinder
     /// </summary>
-    class VKFriendsQueue
+    public class VKFriendsQueue
     {
         public VKFriendsQueue(VKUser root)
         {
@@ -42,12 +42,12 @@ namespace VKSixDegreesOfSeparation
                 return _proceedQueue.Peek().Level;
             }
         }
-
+        //test
         public bool containsUser(VKUser user)
         {
             return _set.Contains(user);
         }
-
+        //test
         public VKUser getUser(int id)
         {
             if (!containsUser(new VKUser(id)))
@@ -65,7 +65,7 @@ namespace VKSixDegreesOfSeparation
 
             return null;
         }
-
+        //test
         public bool addUser(VKUser user) {
             if (_set.Contains(user))
             {
@@ -77,12 +77,12 @@ namespace VKSixDegreesOfSeparation
 
             return true;
         }
-
+        //test
         public bool hasHextUser()
         {
             return _proceedQueue.Count > 0;
         }
-
+        //test
         public VKUser getNextUser()
         {
             if (_proceedQueue.Count == 0)

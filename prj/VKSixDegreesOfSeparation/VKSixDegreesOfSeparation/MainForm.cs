@@ -13,15 +13,14 @@ namespace VKSixDegreesOfSeparation
 {
     public partial class MainForm : Form
     {
-
-        [DllImport("kernel32.dll", SetLastError = true)]
+        /*[DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool AllocConsole();
+        static extern bool AllocConsole();*/
 
         public MainForm()
         {
             InitializeComponent();
-            AllocConsole();
+           // AllocConsole();
         }
 
         private async void findConnectionButton_Click(object sender, EventArgs e)
@@ -38,7 +37,9 @@ namespace VKSixDegreesOfSeparation
             }
 
             VKConnectionFinder connFind = new VKConnectionFinder(_startUser, _targetUser);
+            statusLabel.Text = "Search the path";
             List<VKUserViewData> path = await connFind.getConnection();
+            statusLabel.Text = "Path is found";
             await validatePath(connFind, path);
         }
 
@@ -54,17 +55,21 @@ namespace VKSixDegreesOfSeparation
                 MessageBox.Show("VK servers returned error. Try again");
             }
 
+            statusLabel.Text = "Downloading user info";
+
             ResultForm newForm = new ResultForm(path);
             await newForm.prepareView();
             newForm.Show();
+
+            statusLabel.Text = "Ready";
 
             //await newForm.prepareView();
         }
 
 
         //----------------------------------------User Validation
-
-        private async Task<bool> fetchUserInfo()
+        //test
+        protected async Task<bool> fetchUserInfo()
         {
             UserInfoFetcher startFetcher = new UserInfoFetcher(_startUser.Nick);
             _startUser = await startFetcher.fetchInfo();
@@ -86,7 +91,7 @@ namespace VKSixDegreesOfSeparation
 
             return true;
         }
-
+        //test
         private bool validateTextBoxes()
         {
             bool b1 = validateTextBox(startTextBox, out _startUser);
@@ -99,8 +104,8 @@ namespace VKSixDegreesOfSeparation
 
             return b1 && b2;
         }
-
-        private bool validateTextBox(TextBox tx, out VKUserViewData user)
+        //test
+        protected bool validateTextBox(TextBox tx, out VKUserViewData user)
         {
             int start = -1;
             string url = tx.Text;
@@ -136,8 +141,8 @@ namespace VKSixDegreesOfSeparation
             textBoxGoodData(tx);
             return true;
         }
-
-        private bool validateUser(string userNick, out VKUserViewData user)
+        //test
+        protected bool validateUser(string userNick, out VKUserViewData user)
         {
             user = new VKUserViewData(userNick);
             if (!user.validateNick())
@@ -174,7 +179,17 @@ namespace VKSixDegreesOfSeparation
             }
         }
 
-        private VKUserViewData _startUser;
-        private VKUserViewData _targetUser;
+        protected VKUserViewData _startUser;
+        protected VKUserViewData _targetUser;
+
+        private void startTextBox_Click(object sender, EventArgs e)
+        {
+            startTextBox.Text = "";
+        }
+
+        private void targetTextBox_Click(object sender, EventArgs e)
+        {
+            targetTextBox.Text = "";
+        }
     }
 }

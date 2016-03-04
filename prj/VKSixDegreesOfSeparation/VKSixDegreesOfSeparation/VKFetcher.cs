@@ -7,7 +7,7 @@ using System.IO;
 
 namespace VKSixDegreesOfSeparation
 {
-    enum FetchResult
+    public enum FetchResult
     {
         Success,
         ConnectionError,
@@ -17,7 +17,7 @@ namespace VKSixDegreesOfSeparation
     /// <summary>
     /// Basic fetcher for vk data
     /// </summary>
-    class VKFetcher
+    public class VKFetcher
     {
         public FetchResult Status
         {
@@ -26,8 +26,8 @@ namespace VKSixDegreesOfSeparation
                 return _status;
             }
         }
-
-        protected string httpRequest(string url)
+        //test
+        public string httpRequest(string url)
         {
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 

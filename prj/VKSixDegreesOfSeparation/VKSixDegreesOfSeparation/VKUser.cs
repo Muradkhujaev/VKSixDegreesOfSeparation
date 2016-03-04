@@ -57,7 +57,7 @@ namespace VKSixDegreesOfSeparation
             _level = _father.Level + 1;
             _childs = new List<VKUser>();
         }
-
+        //test
         public void addChild(VKUser child)
         {
             _childs.Add(child);
