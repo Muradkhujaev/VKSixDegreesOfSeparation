@@ -9,6 +9,10 @@ namespace VKSixDegreesOfSeparationTests
     [TestClass]
     public class UserInfoFetcherTests
     {
+        /// <summary>
+        /// Test for getting information about user by his nick (e.g. deell1)
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task fetchInfoTest()
         {
@@ -20,7 +24,10 @@ namespace VKSixDegreesOfSeparationTests
             Assert.AreEqual(expected.Nick, result.Nick, "Method fetchInfo() don`t fetch information correctly");
             Assert.AreEqual(expected.PhotoUrl, result.PhotoUrl, "Method fetchInfo() don`t fetch information correctly");
         }
-
+        /// <summary>
+        /// Test for getting information for person with empty nick.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task fetchInfoNullTest1()
         {
@@ -28,7 +35,10 @@ namespace VKSixDegreesOfSeparationTests
             VKUserViewData result = await fetcher.fetchInfo();
             Assert.AreEqual(null, result, "Method fetchInfo() don`t fetch information correctly");
         }
-
+        /// <summary>
+        /// Test for getting information for not existing nick.
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task fetchInfoNullTest2()
         {
